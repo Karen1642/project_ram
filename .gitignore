@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+src/backup.jsx
+src/App2.jsx
+assets/*
+eslint.config.js
+vite.config.js

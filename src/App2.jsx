@@ -1,30 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import './App.css'
 
-
-function App2() {
-    const [todos, setTodos] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        // Запрос к API при первом рендере компонента
-        fetch("https://jsonplaceholder.typicode.com/todos")
-        .then((response) => response.json()) // Преобразуем ответ в JSON
-        .then((data) => {
-            setTodos(data); // Сохраняем полученные данные
-            setLoading(false); // Отключаем индикатор загрузки
-        });
-    }, []); // Пустой массив зависимостей - вызов только при монтировании
-
-    if (loading) return <div>Загрузка...</div>;
+ async function CharsList2() {
+    const response = await fetch("https://rickandmortyapi.com/api/character");
+    const data = await response.json();
 
     return (
-      <ul>
-        {todos.map(todo => (
-          <li key={todo.id}>{todo.title}</li> // Выводим названия задач
-        ))}
-      </ul>
+      <div className="charWrap">
+            {data}
+      </div>
     );
-
 }
 
-export default App2
+export default CharsList2
