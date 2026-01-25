@@ -1,15 +1,36 @@
 import { useState } from 'react'
 import './App.css'
 
- async function CharsList2() {
-    const response = await fetch("https://rickandmortyapi.com/api/character");
-    const data = await response.json();
+ async function LoadChars() {
+    const response = fetch("https://rickandmortyapi.com/api/character");
+    const data = response.json();
 
-    return (
-      <div className="charWrap">
-            {data}
-      </div>
-    );
+    return data.results;
 }
 
-export default CharsList2
+
+async function CharList2() {
+  const [charList, setCharList] = useState([]);
+
+  const charData = await LoadChars();
+  setCharList(charData);
+
+  return (
+    <div className="charWrap">
+          {charList.map(char => (
+            <Link to={"/cards/" + char.id}>
+              <div className="char">
+                <img src={char.image} alt=""></img>
+                <div>{char.name}</div>
+                <div>{char.species}</div>
+                <div>{char.status}</div>
+              </div>
+            </Link>
+          ))}
+    </div>
+  );
+}
+
+const chr3 = CharList2();
+
+export default chr3

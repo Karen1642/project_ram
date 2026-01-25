@@ -9,7 +9,7 @@ function Main() {
   )
 }
 
-const addData = async () => {
+const AddData = async () => {
   await fetch('http://localhost:3000/items', {
     method: 'POST',
     headers: {
@@ -43,28 +43,20 @@ function CharList() {
 
   if (loading) return <div>Загрузка...</div>;
 
-  if (Array.isArray(charList)) {
-    return (
-      <div className="charWrap">
-            {charList.map(char => (
-              <Link to={"/cards/" + char.id}>
-                <div className="char">
-                  <img src={char.image} alt=""></img>
-                  <div>{char.name}</div>
-                  <div>{char.species}</div>
-                  <div>{char.status}</div>
-                  <div>В корзину</div>
-                </div>
-              </Link>
-            ))}
-      </div>
-    );
-  } else {
-      return (
-        <div className="charWrap">Nope!
-        </div>
-      );    
-  }
+  return (
+    <div className="charWrap">
+          {charList.map(char => (
+            <Link to={"/cards/" + char.id}>
+              <div className="char">
+                <img src={char.image} alt=""></img>
+                <div>{char.name}</div>
+                <div>{char.species}</div>
+                <div>{char.status}</div>
+              </div>
+            </Link>
+          ))}
+    </div>
+  );
 }
 
 function CharCard() {
@@ -86,7 +78,7 @@ function CharCard() {
   return (
     <div className='char_card'>
       <div className='char_avatar'><img src={char.image} alt=""></img></div>
-      <div className='char_info'>
+      <div className='char_info' onClick={PostData}>
         <p><span>Name</span><span>{char.name}</span></p>
         <p><span>Gender</span><span>{char.gender}</span></p>
         <p><span>Species</span><span>{char.species}</span></p>
