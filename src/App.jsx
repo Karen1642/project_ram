@@ -2,26 +2,15 @@ import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useParams } from 'react-router-dom'
 import './App.css'
 
-
-const AddData = async () => {
-  await fetch('http://localhost:3000/items', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(), // Данные объекта превращаются в JSON-строку
-  });
-};
-
-async function PostData (item) {
+async function postData (item, link) {
+  //DELETE
   console.log("5");
-  await fetch('http://localhost:3000/my_cards', {
+  await fetch(link, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify([item])
+    body: JSON.stringify({"123":item})
   })
 }
-
 
 async function GetAllChars() {
   const response = await fetch("https://rickandmortyapi.com/api/character");
@@ -45,20 +34,29 @@ function Main() {
 
 function CharList() {
   const [charList, setCharList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //     fetch("https://rickandmortyapi.com/api/character")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //         setCharList(data.results);
+  //         setLoading(false);
+  //     });
+  // }, []);
+
+  // if (loading) return <div>Загрузка...</div>;
   useEffect(() => {
-      fetch("https://rickandmortyapi.com/api/character")
-      .then((response) => response.json())
-      .then((data) => {
-          setCharList(data.results);
-          setLoading(false);
-      });
+    const get = async () => {
+      const allChars = await GetAllChars();
+      console.log("effect", allChars);
+      setCharList(allChars);
+    } 
+    get();
   }, []);
 
-  if (loading) return <div>Загрузка...</div>;
-
   // const allChars = GetAllChars();
+  // console.log(allChars);
   // setCharList(allChars);
 
   return (
@@ -109,7 +107,7 @@ function CharCard() {
       </div>
       <div className='void'></div>
       <div className='button'>
-        <button onClick={() => {PostData(char.id)}}>Buy</button>
+        <button onClick={() => {postData(char.id, 'http://localhost:3000/cart')}}>Buy</button>
       </div>
     </div>    
   )
@@ -129,24 +127,19 @@ function Cart() {
 
   useEffect(() => {
       fetch("http://localhost:3000/cart")
-      .then((response) => response.json())
+      .then((response) => {
+        console.log("response", response);
+        return response.json()
+      })
       .then((data) => {
+          const res = data.join(',');
+          console.log("data", data);
           setCart(data.join(','));
+          //после data использовать map
       });
   }, []);
 
-  //DELETE
-  console.log(cart);
-  console.log(typeof cart);
-  console.log("111111111111111");
-
-
-  var cartCharSet = cart;
-
-  //DELETE
-  console.log(cartCharSet);
-  console.log(typeof cartCharSet);
-  console.log("22222222222222");
+  let cartCharSet = cart;
 
   useEffect(() => {
       fetch("https://rickandmortyapi.com/api/character/" + cartCharSet)
@@ -156,20 +149,13 @@ function Cart() {
       });
   }, []);
 
-  //DELETE
-  console.log(charList);
-  console.log(typeof charList);
-  console.log("3333333333333");
-
-
-  var index = 0;
   return (
     <div className='cart'>
       <div className='cart_list'>
-        {charList.map(char => (
+        {charList.map((char, idx) => (
           <Link to={"/cards/" + char.id}>
             <p>
-              <span>{index++}. </span>
+              <span>{idx}. </span>
               <span>{char.name}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
               <span>{char.species}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
               <span>{char.status}</span>
