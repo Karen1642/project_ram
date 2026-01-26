@@ -3,12 +3,6 @@ import { Routes, Route, Link, useParams } from 'react-router-dom'
 import './App.css'
 
 
-function Main() {
-  return (
-    <div className='main_pic'></div>    
-  )
-}
-
 const AddData = async () => {
   await fetch('http://localhost:3000/items', {
     method: 'POST',
@@ -19,13 +13,34 @@ const AddData = async () => {
   });
 };
 
-function PostData () {
-  console.log("1");
-  fetch("http://localhost:3000", {
+async function PostData (item) {
+  console.log("5");
+  await fetch('http://localhost:3000/my_cards', {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ title: "foo", body: "bar", userId: 1 })
+    body: JSON.stringify([item])
   })
+}
+
+
+async function GetAllChars() {
+  const response = await fetch("https://rickandmortyapi.com/api/character");
+  const data = await response.json();
+
+  return data.results;    
+}
+
+async function GetChar(cardId) {
+  const response = await fetch("https://rickandmortyapi.com/api/character/" + cardId)
+  const data = await response.json();
+
+  return data;  
+}
+
+function Main() {
+  return (
+    <div className='main_pic'></div>    
+  )
 }
 
 function CharList() {
@@ -43,8 +58,11 @@ function CharList() {
 
   if (loading) return <div>Загрузка...</div>;
 
+  // const allChars = GetAllChars();
+  // setCharList(allChars);
+
   return (
-    <div className="charWrap">
+    <div className="charsWrapper">
           {charList.map(char => (
             <Link to={"/cards/" + char.id}>
               <div className="char">
@@ -75,16 +93,23 @@ function CharCard() {
 
   if (loading) return <div>Загрузка...</div>;
 
+  // const loadedChar = GetChar(cardId);
+  // setChar(loadedChar);
+
   return (
     <div className='char_card'>
       <div className='char_avatar'><img src={char.image} alt=""></img></div>
-      <div className='char_info' onClick={PostData}>
+      <div className='char_info'>
         <p><span>Name</span><span>{char.name}</span></p>
         <p><span>Gender</span><span>{char.gender}</span></p>
         <p><span>Species</span><span>{char.species}</span></p>
         <p><span>Type</span><span>{char.type}</span></p>        
         <p><span>Status</span><span>{char.status}</span></p>
         <p><span>Location</span><span>{char.location.name}</span></p>        
+      </div>
+      <div className='void'></div>
+      <div className='button'>
+        <button onClick={() => {PostData(char.id)}}>Buy</button>
       </div>
     </div>    
   )
@@ -98,8 +123,64 @@ function MyCards() {
 }
 
 function Cart() {
+  const [cart, setCart] = useState("1,2");
+  const [charList, setCharList] = useState([]);
+
+
+  useEffect(() => {
+      fetch("http://localhost:3000/cart")
+      .then((response) => response.json())
+      .then((data) => {
+          setCart(data.join(','));
+      });
+  }, []);
+
+  //DELETE
+  console.log(cart);
+  console.log(typeof cart);
+  console.log("111111111111111");
+
+
+  var cartCharSet = cart;
+
+  //DELETE
+  console.log(cartCharSet);
+  console.log(typeof cartCharSet);
+  console.log("22222222222222");
+
+  useEffect(() => {
+      fetch("https://rickandmortyapi.com/api/character/" + cartCharSet)
+      .then((response) => response.json())
+      .then((data) => {
+          setCharList(data);
+      });
+  }, []);
+
+  //DELETE
+  console.log(charList);
+  console.log(typeof charList);
+  console.log("3333333333333");
+
+
+  var index = 0;
   return (
-    <div className='cart'></div>    
+    <div className='cart'>
+      <div className='cart_list'>
+        {charList.map(char => (
+          <Link to={"/cards/" + char.id}>
+            <p>
+              <span>{index++}. </span>
+              <span>{char.name}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+              <span>{char.species}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+              <span>{char.status}</span>
+            </p>
+          </Link>
+        ))}
+      </div>
+      <div>
+        <button>Pay</button>
+      </div>
+    </div>   
   )
 }
 
@@ -117,9 +198,9 @@ function Site() {
     <div className='wrapper'>
       {/* Простая навигация */}
       <nav className='nav_pan'>
-        <Link to="/">Главная</Link>  | {' '}
-        <Link to="/cards">Чары</Link>  | {' '}
-        <Link to="/my-cards">Мои карточки</Link>  | {' '}
+        <Link to="/">Главная</Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <Link to="/cards">Чары</Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <Link to="/my-cards">Мои карточки</Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
         <Link to="/cart">Корзина</Link>
       </nav>
       {/* Определяем маршруты */}

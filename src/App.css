@@ -1,8 +1,14 @@
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .nav_pan {
@@ -17,7 +23,7 @@
   color: white;
 }
 
-.charWrap {
+.charsWrapper {
   width: 1100px;
   display: flex;
   flex-wrap: wrap;
@@ -70,7 +76,10 @@
 .char_card {
   width:1100px;
   display: flex;
-  background-color: rgba(0, 0, 0, 0.85);
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .char_avatar {
@@ -82,7 +91,7 @@
 }
 
 .char_info {
-  width: 450px;
+  width: 480px;
   font: 520 26px/1.5 "Arial", sans-serif;
   color: white;
   text-align: start;
@@ -98,4 +107,36 @@
 
 .char_info p span:nth-of-type(2){
   text-align: right;
+}
+
+.char_card .void {
+  width: 70%;
+}
+
+.char_card button {
+  width: 160px;
+}
+
+.cart {
+  width: 60%;
+  display: flex; 
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.cart_list {
+  min-height: 100px;
+  width:100%;
+  background-color: white;
+  border-radius: 10px;
+  text-align: start;
+  padding: 6px 20px;
+}
+
+.cart_list a {
+    color: black;
+}
+
+.cart button {
+  width: 160px;
+  margin-top: 10px;
 }
