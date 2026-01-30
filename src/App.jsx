@@ -1,35 +1,16 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useParams } from 'react-router-dom'
 import './App.css'
-
-async function postData (item, link) {
-  //DELETE
-  console.log("5");
-  await fetch(link, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({"123":item})
-  })
-}
-
-async function GetAllChars() {
-  const response = await fetch("https://rickandmortyapi.com/api/character");
-  const data = await response.json();
-
-  return data.results;    
-}
+import NotFound from './NotFound.jsx'
+import MainPage from './MainPage.jsx'
+import MyCards from './MyCards.jsx'
+import { getAllChars, postData, getCart } from './functions.jsx'
 
 async function GetChar(cardId) {
   const response = await fetch("https://rickandmortyapi.com/api/character/" + cardId)
   const data = await response.json();
 
   return data;  
-}
-
-function Main() {
-  return (
-    <div className='main_pic'></div>    
-  )
 }
 
 function CharList() {
@@ -48,16 +29,11 @@ function CharList() {
   // if (loading) return <div>Загрузка...</div>;
   useEffect(() => {
     const get = async () => {
-      const allChars = await GetAllChars();
-      console.log("effect", allChars);
+      const allChars = await getAllChars();
       setCharList(allChars);
     } 
     get();
   }, []);
-
-  // const allChars = GetAllChars();
-  // console.log(allChars);
-  // setCharList(allChars);
 
   return (
     <div className="charsWrapper">
@@ -91,9 +67,6 @@ function CharCard() {
 
   if (loading) return <div>Загрузка...</div>;
 
-  // const loadedChar = GetChar(cardId);
-  // setChar(loadedChar);
-
   return (
     <div className='char_card'>
       <div className='char_avatar'><img src={char.image} alt=""></img></div>
@@ -113,40 +86,17 @@ function CharCard() {
   )
 }
 
-
-function MyCards() {
-  return (
-    <div className='my_cards'></div>    
-  )
-}
-
 function Cart() {
-  const [cart, setCart] = useState("1,2");
   const [charList, setCharList] = useState([]);
 
-
   useEffect(() => {
-      fetch("http://localhost:3000/cart")
-      .then((response) => {
-        console.log("response", response);
-        return response.json()
-      })
-      .then((data) => {
-          const res = data.join(',');
-          console.log("data", data);
-          setCart(data.join(','));
-          //после data использовать map
-      });
-  }, []);
-
-  let cartCharSet = cart;
-
-  useEffect(() => {
-      fetch("https://rickandmortyapi.com/api/character/" + cartCharSet)
-      .then((response) => response.json())
-      .then((data) => {
-          setCharList(data);
-      });
+    const get = async () => {
+      const cartData = await getCart();
+      const response = await fetch("https://rickandmortyapi.com/api/character/" + cartData);
+      const contentList = await response.json();
+      setCharList(contentList);
+    }
+    get();
   }, []);
 
   return (
@@ -156,6 +106,7 @@ function Cart() {
           <Link to={"/cards/" + char.id}>
             <p>
               <span>{idx}. </span>
+              <img src={char.image} alt="" style={{width:"100px"}}></img>
               <span>{char.name}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
               <span>{char.species}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
               <span>{char.status}</span>
@@ -170,16 +121,7 @@ function Cart() {
   )
 }
 
-function NotFound() {
-  return (
-    <div className='not_found'>
-      <div className='not_found_pic'></div>
-      <p>Страница не найдена</p>
-    </div>
-  )
-}
-
-function Site() {
+function App() {
   return (
     <div className='wrapper'>
       {/* Простая навигация */}
@@ -191,7 +133,7 @@ function Site() {
       </nav>
       {/* Определяем маршруты */}
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/cards" element={<CharList />} />
         <Route path="/cards/:cardId" element={<CharCard />} />
         <Route path="/my-cards" element={<MyCards />} />
@@ -202,4 +144,4 @@ function Site() {
   )
 }
 
-export default Site
+export default App
