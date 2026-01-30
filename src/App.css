@@ -140,3 +140,8 @@
   width: 160px;
   margin-top: 10px;
 }
+
+.ldng_scrn {
+  color: white;
+  font: 520 36px/1.5 "Arial", sans-serif;
+}

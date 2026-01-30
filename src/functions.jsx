@@ -5,6 +5,13 @@ export const getAllChars = async () => {
   return data.results;    
 }
 
+export const getChar = async (cardId) => {
+  const response = await fetch("https://rickandmortyapi.com/api/character/" + cardId)
+  const data = await response.json();
+
+  return data;  
+}
+
 export const postData = async (item, link) => {
   await fetch(link, {
     method: "POST",
@@ -17,9 +24,9 @@ export const getCart = async () => {
   let strRes = "";
   const response = await fetch("http://localhost:3000/cart");
   const data = await response.json();
-  const result = data.map((res, idx) => (
-                    strRes = strRes + (idx==0?'':',') + res.id.toString()
-                  ));
+  data.map((res, idx) => (
+            strRes = strRes + (idx==0?'':',') + res.id.toString()
+  ));
 
   return strRes;   
 }
