@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { getAllChars } from './functions.jsx'
+import { getAllChars } from '../functions.jsx'
 
 function CharList() {
   const [charList, setCharList] = useState([]);

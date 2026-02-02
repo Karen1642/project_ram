@@ -1,11 +1,11 @@
-import { Routes, Route, Link, useParams } from 'react-router-dom'
-import './App.css'
-import MainPage from './MainPage.jsx'
-import CharList from './CharList.jsx'
-import MyCards from './MyCards.jsx'
-import Cart from './Cart.jsx'
-import CharCard from './CharCard.jsx'
-import NotFound from './NotFound.jsx'
+import { Routes, Route, Link} from 'react-router-dom'
+import './css/App.css'
+import MainPage from './components/MainPage.jsx'
+import CharList from './components/CharList.jsx'
+import MyCards from './components/MyCards.jsx'
+import Cart from './components/Cart.jsx'
+import CharCard from './components/CharCard.jsx'
+import NotFound from './components/NotFound.jsx'
 
 function App() {
   return (
