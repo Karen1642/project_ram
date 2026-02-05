@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getData, getChar } from '../functions.jsx'
+import { getData, getChars } from '../functions.jsx'
 
 function MyCards() {
   const [myCardsList, setMyCardsList] = useState([]);
@@ -7,20 +7,21 @@ function MyCards() {
   useEffect(() => {
     const get = async () => {
       const myCharsData = await getData("http://localhost:3000/my_cards");
-      const contentList = await getChar(myCharsData);
 
-      if (Array.isArray(contentList)) {
-        setMyCardsList(contentList);
-      } else {
-        setMyCardsList([contentList]);
-      } 
+      let charIds = "";
+      myCharsData.map((res, idx) => (
+            charIds = charIds + (idx==0?'':',') + res.id.toString()         
+          ));
+
+      const contentList = await getChars(charIds);
+      setMyCardsList(contentList);
     } 
     get();
   }, []);
 
   return (
     <div className='my_cards'>
-      {myCardsList.map((char, idx) => (
+      {myCardsList.map(char => (
         <div className='my_char_card'>
           <div className='my_char_avatar'><img src={char.image} alt=""></img></div>
           <div className='my_char_info'>

@@ -1,8 +1,8 @@
-export const getAllChars = async () => {
-  const response = await fetch("https://rickandmortyapi.com/api/character");
+export const getCharList = async (params = '') => {
+  const response = await fetch("https://rickandmortyapi.com/api/character/?" + params);
   const data = await response.json();
 
-  return data.results;    
+  return Object.hasOwn(data, "error") ? [data] : data.results;    
 }
 
 export const getChar = async (cardId) => {
@@ -12,15 +12,19 @@ export const getChar = async (cardId) => {
   return data;  
 }
 
+export const getChars = async (cardId) => {
+  const response = await fetch("https://rickandmortyapi.com/api/character/" + cardId)
+  const data = await response.json();
+
+  const result = Array.isArray(data)?data:[data];
+  return result;  
+}
+
 export const getData = async (link) => {
-  let strRes = "";
   const response = await fetch(link);
   const data = await response.json();
-  data.map((res, idx) => (
-            strRes = strRes + (idx==0?'':',') + res.id.toString()
-  ));
 
-  return strRes;   
+  return data;   
 }
 
 export const postData = async (item, link) => {
@@ -28,5 +32,11 @@ export const postData = async (item, link) => {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({"id":item})
+  })
+}
+
+export const deleteData = async (link) => {
+  await fetch(link, {
+    method: "DELETE"
   })
 }
