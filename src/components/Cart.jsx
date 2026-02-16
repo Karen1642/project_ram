@@ -2,20 +2,34 @@ import { useState, useEffect } from 'react'
 import { getData, getChars, postData, deleteData } from '../functions.jsx'
 import { Link } from 'react-router-dom'
 
+async function checkout(ids) {
+  try {
+    const requests = ids.map(id => 
+      postData(id, 'http://localhost:3000/my_cards')
+    )
+    await Promise.all(requests);
+    //ВОПРОС не работает
+    await deleteData("http://localhost:3000/cart?id:eq=3")
+  } catch (error) {
+    console.error("checkout", error);
+  }
+}
+
+
 function Cart() {
   const [cartList, setCartList] = useState([]);
   const [markedChars, setMarkedChars] = useState([]);
 
   useEffect(() => {
     const get = async () => {
-      const cartData = await getData("http://localhost:3000/cart");
+      const cartData = await getData("http://localhost:3000/cart?");
 
       let charIds = "";
       let arrayIds = [];
 
       cartData.map((res, idx) => (
             charIds = charIds + (idx==0?'':',') + res.id.toString(),
-            arrayIds.push(+res.id)          
+            arrayIds.push(Number(res.id))          
           ));
 
       const contentList = await getChars(charIds);
@@ -28,27 +42,22 @@ function Cart() {
 
   //ВОПРОС по удалению из массива
   const handleChange = (event, id) => {
-                          //отменяем предыдущее действие
-                          event.preventDefault();
-                          event.stopPropagation();
+    //отменяем предыдущее действие
+    //event.preventDefault();
+    //event.stopPropagation();
 
-                          //ВОПРОС event.target.checked
-                          if (event.target.checked) {
-                            const newMarkedChars = [...markedChars, id];
-                            setMarkedChars(newMarkedChars);
-                          } else {
-                            setMarkedChars(markedChars.filter(charId => charId !== id));
-                          }
-                        };
+    if (event.target.checked) {
+      const newMarkedChars = [...markedChars, id];
+      setMarkedChars(newMarkedChars);
+    } else {
+      setMarkedChars(markedChars.filter(charId => charId !== id));
+    }
+  };
 
-  const handlePayOnClick = () => {markedChars.map( id => {
-                                                  postData(id, 'http://localhost:3000/my_cards')}
-                                                ),
-                                    //ВОПРОС не работает
-                                    deleteData("http://localhost:3000/cart"),
-                                    //ВОПРОС можно ли использовать get()?
-                                    setCartList([])
-                                  }
+  const handlePayOnClick = async () => {
+    await checkout(markedChars);
+    setCartList([]);
+  }
 
   return (
     <div className='cart'>
@@ -57,11 +66,11 @@ function Cart() {
             <div className='cart_char' id={char.id}>
               <input id={char.id} type="checkbox" onChange={e => handleChange(e, char.id)} checked={markedChars.includes(char.id)}/>
               <Link to={"/cards/" + char.id}>              
-                  <span>{idx}. </span>
-                  <img src={char.image} alt=""></img>
-                  <span>{char.name}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
-                  <span>{char.species}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
-                  <span>{char.status}</span>
+                <span>{idx}. </span>
+                <img src={char.image} alt=""></img>
+                <span>{char.name}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <span>{char.species}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <span>{char.status}</span>
               </Link>  
             </div>          
         ))}

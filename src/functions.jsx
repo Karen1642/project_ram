@@ -1,6 +1,9 @@
 export const getCharList = async (params = '') => {
   const response = await fetch("https://rickandmortyapi.com/api/character/?" + params);
-  const data = await response.json();
+  console.log("response", response);
+  if (!response.ok) return "error";
+
+  const data = await response.json(); 
 
   return Object.hasOwn(data, "error") ? [data] : data.results;    
 }
@@ -36,7 +39,7 @@ export const postData = async (item, link) => {
 }
 
 export const deleteData = async (link) => {
-  await fetch(link, {
+  const response = await fetch(link, {
     method: "DELETE"
   })
 }
