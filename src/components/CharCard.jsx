@@ -2,10 +2,16 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { postData, getChar } from '../functions.jsx'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart, clearCart } from '../features/counter/counterSlice'
+
 function CharCard() {
   const {cardId} = useParams();
   const [char, setChar] = useState();
   const [loading, setLoading] = useState(true);
+
+  const count = useSelector((state) => state.counter.cart)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const get = async () => {
@@ -32,6 +38,9 @@ function CharCard() {
       <div className='void'></div>
       <div className='button'>
         <button onClick={() => {postData(char.id, 'http://localhost:3000/cart')}}>Buy</button>
+      </div>
+      <div className='button'>
+        <button onClick={() => {dispatch(addToCart(char.id))}}>Buy2</button>
       </div>
     </div>    
   )

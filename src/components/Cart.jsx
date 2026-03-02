@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { getData, getChars, postData, deleteData } from '../functions.jsx'
 import { Link } from 'react-router-dom'
 
+// import { useSelector, useDispatch } from 'react-redux'
+// import { addToCart, clearCart } from '../features/counter/counterSlice'
+
 async function checkout(ids) {
   try {
     const requests = ids.map(id => 
@@ -19,6 +22,9 @@ async function checkout(ids) {
 function Cart() {
   const [cartList, setCartList] = useState([]);
   const [markedChars, setMarkedChars] = useState([]);
+
+  // const count = useSelector((state) => state.counter.cart)
+  // const dispatch = useDispatch()
 
   useEffect(() => {
     const get = async () => {
@@ -40,7 +46,6 @@ function Cart() {
     get();
   }, []);
 
-  //ВОПРОС по удалению из массива
   const handleChange = (event, id) => {
     //отменяем предыдущее действие
     //event.preventDefault();
@@ -55,6 +60,10 @@ function Cart() {
   };
 
   const handlePayOnClick = async () => {
+    await checkout(markedChars);
+    setCartList([]);
+  }
+  const handlePayOnClick2 = async () => {
     await checkout(markedChars);
     setCartList([]);
   }
@@ -78,6 +87,11 @@ function Cart() {
       <div>
         <button onClick={handlePayOnClick}>
           Pay
+        </button>
+      </div>
+      <div>
+        <button onClick={handlePayOnClick2}>
+          Pay2
         </button>
       </div>
     </div>

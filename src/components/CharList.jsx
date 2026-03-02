@@ -2,19 +2,39 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { getCharList } from '../functions.jsx'
 
+function putParams(params2) {
+  let paramsObj = {};
+  for (const [key, value] of params2.entries()) {
+    paramsObj[key] = value;
+  }
+  return paramsObj;
+}
+
 function CharList() {
   const [charList, setCharList] = useState([]);
   //дописать все параметры
-  const [searchParams, setSearchParams] = useState({"page":1});
+  const [searchParams, setSearchParams] = useState({
+                                            "page": 1, 
+                                            "name": "", 
+                                            "status": "",
+                                            "species": "",
+                                            "type": "",
+                                            "gender": ""
+                                          });
   let location = useLocation();
   let params = new URLSearchParams(location.search);
+  //const url = new URL(window.location.href);
   //DELETE
   //console.log("location.pathname", location.pathname);
   //console.log("location.search", location.search);
-  //console.log("params", params.toString());
+
+  const paramsData = putParams(params);
+  console.log("paramsData", paramsData);
+  //setSearchParams(paramsData);
+  console.log("searchParams", searchParams);
 
   useEffect(() => {
-    const get = async () => {
+    const get = async () => {     
       let linkParams = "";
       Object.entries(searchParams).map( ([key, value]) => {
         linkParams = linkParams + key + "=" + value + "&";        
@@ -24,7 +44,7 @@ function CharList() {
       setCharList(allChars);      
     } 
     get();
-  }, [searchParams]);
+  }, [searchParams]); //searchParams
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -80,9 +100,15 @@ function CharList() {
       </div>
       <form>
         <input type='button' name='prevButton' onClick={handleClickPrevButton}></input>
-        <input name='page' placeholder='Page' onChange={handleChangePageInput} value={searchParams.page}></input>
+        <input name='page' placeholder='Page' onChange={handleChangePageInput} value={4}></input>
         <input type='button' name='nextButton' onClick={handleClickNextButton}></input>
-      </form>    
+      </form>
+      <Link to={"/cards?page=" + (4)}>
+        <input type='button' name='prevButton'></input>
+      </Link>
+      <Link to={"/cards?page=" + (4)}>
+        <input type='button' name='nextButton'></input>
+      </Link>   
     </div>
   );
 }

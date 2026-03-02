@@ -49,6 +49,7 @@ input {
 }
 
 .char {
+  height: 255px;
   max-width: 125px;
   margin-bottom: 60px;
   background-color: #f3eded;
