@@ -17,7 +17,6 @@ export const counterSlice = createSlice({
       console.log("state", state.cart)
       state.cart.push(action.payload);
       console.log("state", state.cart)
-      console.log("action", action)
     },
     removeFromCart: (state, action) => {
       state.cart = [];
