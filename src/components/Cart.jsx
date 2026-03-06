@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
-import { getData, getChars, postData, deleteData } from '../functions.jsx'
+import { getData, getCharacters, getChars, postData, deleteData } from '../functions.jsx'
 import { Link } from 'react-router-dom'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart, clearCart } from '../features/counter/counterSlice'
+import { combineSlices } from '@reduxjs/toolkit'
 
 // import { useSelector, useDispatch } from 'react-redux'
 // import { addToCart, clearCart } from '../features/counter/counterSlice'
@@ -20,31 +24,24 @@ async function checkout(ids) {
 
 
 function Cart() {
-  const [cartList, setCartList] = useState([]);
+  //const [cartList, setCartList] = useState([]);
   const [markedChars, setMarkedChars] = useState([]);
+  const cartList = useSelector((state) => state.counter.cart);
+  //console.log("chars", chars);
 
   // const count = useSelector((state) => state.counter.cart)
   // const dispatch = useDispatch()
 
-  useEffect(() => {
-    const get = async () => {
-      const cartData = await getData("http://localhost:3000/cart?");
+  // useEffect(() => {
+  //   const getCharsData = async ()=> {
+  //     const data = await getCharacters(charsIds);
+  //     console.log("data", data);
+  //     setCartList(data);
+  //   }
+  //   getCharsData();
 
-      let charIds = "";
-      let arrayIds = [];
-
-      cartData.map((res, idx) => (
-            charIds = charIds + (idx==0?'':',') + res.id.toString(),
-            arrayIds.push(Number(res.id))          
-          ));
-
-      const contentList = await getChars(charIds);
-
-      setCartList(contentList);
-      setMarkedChars(arrayIds);
-    }     
-    get();
-  }, []);
+    
+  // },[charsIds])
 
   const handleChange = (event, id) => {
     //отменяем предыдущее действие

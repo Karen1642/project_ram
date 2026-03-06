@@ -23,6 +23,21 @@ export const getChars = async (cardId) => {
   return result;  
 }
 
+export const getCharacters = async (cardIds) => {
+  //cardIds - массив ИДишников
+  if (cardIds.length === 0) return [];
+
+
+  const idsString = cardIds.join(",");
+
+  const response = await fetch(`https://rickandmortyapi.com/api/character/${idsString}`);
+  const data = await response.json();
+
+  const result = Array.isArray(data)?data:[data];
+  return result;  
+}
+
+
 export const getData = async (link) => {
   const response = await fetch(link);
   const data = await response.json();

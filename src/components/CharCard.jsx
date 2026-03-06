@@ -40,7 +40,7 @@ function CharCard() {
         <button onClick={() => {postData(char.id, 'http://localhost:3000/cart')}}>Buy</button>
       </div>
       <div className='button'>
-        <button onClick={() => {dispatch(addToCart(char.id))}}>Buy2</button>
+        <button onClick={() => {dispatch(addToCart(char))}}>Buy2</button>
       </div>
     </div>    
   )
