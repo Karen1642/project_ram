@@ -1,79 +1,87 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getCharList } from '../functions.jsx'
-
-function putParams(params2) {
-  let paramsObj = {};
-  for (const [key, value] of params2.entries()) {
-    paramsObj[key] = value;
-  }
-  return paramsObj;
-}
 
 function CharList() {
   const [charList, setCharList] = useState([]);
-  //дописать все параметры
-  const [searchParams, setSearchParams] = useState({
-                                            "page": 1, 
-                                            "name": "", 
-                                            "status": "",
-                                            "species": "",
-                                            "type": "",
-                                            "gender": ""
-                                          });
+  // const [searchParams, setSearchParams] = useState({
+  //                                           "page": 1, 
+  //                                           "name": "", 
+  //                                           "status": "",
+  //                                           "species": "",
+  //                                           "type": "",
+  //                                           "gender": ""
+  //                                         });
   let location = useLocation();
   let params = new URLSearchParams(location.search);
+  
   //const url = new URL(window.location.href);
-  //DELETE
-  //console.log("location.pathname", location.pathname);
-  //console.log("location.search", location.search);
+  const navigate = useNavigate();
 
-  const paramsData = putParams(params);
-  console.log("paramsData", paramsData);
-  //setSearchParams(paramsData);
-  console.log("searchParams", searchParams);
+  //спросить про useSearchParams
+
 
   useEffect(() => {
-    const get = async () => {     
+    const get = async () => {  
+      console.log("page", params.get("page"));
+
       let linkParams = "";
-      Object.entries(searchParams).map( ([key, value]) => {
-        linkParams = linkParams + key + "=" + value + "&";        
-      });
+      for (const [key, value] of params.entries()) {
+        linkParams = linkParams + key + "=" + value + "&";
+      }
       console.log("linkParams", linkParams);
       const allChars = await getCharList(linkParams); //params.toString()
       setCharList(allChars);      
     } 
     get();
-  }, [searchParams]); //searchParams
+  }, [location.search]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //event.stopPropagation();
+
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
     console.log("data", data);
 
-    //setSearchParams(data);
-    setSearchParams(prev => ({
-      ...prev,
-      ...data,
-      page: 1      
-    }));
+    // setSearchParams(prev => ({
+    //   ...prev,
+    //   ...data,
+    //   page: 1      
+    // }));
+    const newParams = new URLSearchParams({
+    //...Object.fromEntries(params.entries()),
+    ...data,
+    page: 1
+    });
+
+    navigate(`?${newParams.toString()}`);
   }
 
   const handleClickPrevButton = () => {
-    const newObj = {...searchParams, "page": searchParams.page - 1};
-    setSearchParams(newObj);
+    const prevPage = Number(params.get("page")) - 1;
+    params.set("page", prevPage)
+
+    // url.searchParams.set('page', prevPage);
+    // window.history.pushState({}, '', url);
+    navigate(`?${params.toString()}`);
   }
 
   const handleClickNextButton = () => {
-    const newObj = {...searchParams, "page": searchParams.page + 1};
-    setSearchParams(newObj);
+    const nextPage = Number(params.get("page")) + 1;
+    params.set("page", nextPage)
+
+    // url.searchParams.set('page', nextPage);
+    // window.history.pushState({}, '', url);
+    navigate(`?${params.toString()}`);
   }
 
   const handleChangePageInput = (event) => {
-    const newObj = {...searchParams, "page": Number(event.target.value)};
-    setSearchParams(newObj);
+    const newPage = Number(event.target.value);
+    params.set("page", newPage)
+
+    // url.searchParams.set('page', newPage);
+    // window.history.pushState({}, '', url);
+    navigate(`?${params.toString()}`); 
   }
 
   return (
@@ -100,7 +108,7 @@ function CharList() {
       </div>
       <form>
         <input type='button' name='prevButton' onClick={handleClickPrevButton}></input>
-        <input name='page' placeholder='Page' onChange={handleChangePageInput} value={4}></input>
+        <input name='page' placeholder='Page' onChange={handleChangePageInput} value={params.get("page")}></input>
         <input type='button' name='nextButton' onClick={handleClickNextButton}></input>
       </form>
       <Link to={"/cards?page=" + (4)}>
