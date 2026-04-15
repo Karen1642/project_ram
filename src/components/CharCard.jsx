@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { postData, getChar } from '../functions.jsx'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart, clearCart } from '../features/counter/counterSlice'
+import { addToCart } from '../features/counter/counterSlice'
 
 function CharCard() {
   const {cardId} = useParams();
@@ -36,11 +36,11 @@ function CharCard() {
         <p><span>Location</span><span>{char.location.name}</span></p>        
       </div>
       <div className='void'></div>
-      <div className='button'>
+      {/*<div className='button'>
         <button onClick={() => {postData(char.id, 'http://localhost:3000/cart')}}>Buy</button>
-      </div>
+      </div>*/}
       <div className='button'>
-        <button onClick={() => {dispatch(addToCart(char))}}>Buy2</button>
+        <button onClick={() => {dispatch(addToCart(char))}}>Buy</button>
       </div>
     </div>    
   )

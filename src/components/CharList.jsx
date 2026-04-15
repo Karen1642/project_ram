@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { getCharList } from '../functions.jsx'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
+//import { getCharList } from '../functions.jsx'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCharsRequest } from '../features/counter/counterSlice'
 
 function CharList() {
-  const [charList, setCharList] = useState([]);
+  //const [charList, setCharList] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const dispatch = useDispatch();
+  const { chars } = useSelector(state => state.counter);
 
   // const [searchParams, setSearchParams] = useState({
   //                                           "page": 1, 
@@ -18,25 +23,25 @@ function CharList() {
   //let searchParams = new URLSearchParams(location.search);
   
   //const url = new URL(window.location.href);
-  //const navigate = useNavigate();
-
-  //спросить про useSearchParams
-
 
   useEffect(() => {
-    const get = async () => {  
-      console.log("page", searchParams.get("page"));
-
-      let linkParams = "";
-      for (const [key, value] of searchParams.entries()) {
-        linkParams = linkParams + key + "=" + value + "&";
-      }
-      console.log("linkParams", linkParams);
-      const allChars = await getCharList(linkParams); //searchParams.toString()
-      setCharList(allChars);      
-    } 
-    get();
-  }, [searchParams]);
+    // const get = async () => {  
+    //   let linkParams = "";
+    //   for (const [key, value] of searchParams.entries()) {
+    //     linkParams = linkParams + key + "=" + value + "&";
+    //   }
+    //   console.log("linkParams", linkParams);
+    //   const allChars = await getCharList(linkParams); //searchParams.toString()
+    //   setCharList(allChars);      
+    // } 
+    // get();
+    let linkParams = "";
+    for (const [key, value] of searchParams.entries()) {
+      linkParams += key + "=" + value + "&"
+    }
+    console.log("linkParams", linkParams);
+    dispatch(fetchCharsRequest(linkParams))
+  }, [searchParams, dispatch]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -56,7 +61,6 @@ function CharList() {
     // page: 1
     // });
 
-    //navigate(`?${newParams.toString()}`);
     setSearchParams({...data, page: 1});
   }
 
@@ -64,8 +68,6 @@ function CharList() {
     const prevPage = Number(searchParams.get("page")) - 1;    
 
     // url.searchParams.set('page', prevPage);
-    // window.history.pushState({}, '', url);
-    //navigate(`?${searchParams.toString()}`);
     setSearchParams((searchParams) => {
       searchParams.set("page", prevPage);
       return searchParams;
@@ -77,8 +79,6 @@ function CharList() {
     //searchParams.set("page", nextPage)
 
     // url.searchParams.set('page', nextPage);
-    // window.history.pushState({}, '', url);
-    //navigate(`?${searchParams.toString()}`);
     setSearchParams((searchParams) => {
       searchParams.set("page", nextPage);
       return searchParams;
@@ -90,8 +90,6 @@ function CharList() {
     //searchParams.set("page", newPage)
 
     // url.searchParams.set('page', newPage);
-    // window.history.pushState({}, '', url);
-    // navigate(`?${searchParams.toString()}`);
     setSearchParams((searchParams) => {
       searchParams.set("page", newPage);
       return searchParams;
@@ -109,7 +107,8 @@ function CharList() {
         <input type='submit' value="Submit"></input>
       </form>
       <div className="char_list">
-        {charList.map( char => (
+        {//charList.map( char => (
+        chars.map( char => (
           <Link to={"/cards/" + char.id}>
             <div className="char">
               <img src={char.image} alt=""></img>
