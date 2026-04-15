@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { getCharList } from '../functions.jsx'
 
 function CharList() {
   const [charList, setCharList] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // const [searchParams, setSearchParams] = useState({
   //                                           "page": 1, 
   //                                           "name": "", 
@@ -12,29 +14,29 @@ function CharList() {
   //                                           "type": "",
   //                                           "gender": ""
   //                                         });
-  let location = useLocation();
-  let params = new URLSearchParams(location.search);
+  //let location = useLocation();
+  //let searchParams = new URLSearchParams(location.search);
   
   //const url = new URL(window.location.href);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   //спросить про useSearchParams
 
 
   useEffect(() => {
     const get = async () => {  
-      console.log("page", params.get("page"));
+      console.log("page", searchParams.get("page"));
 
       let linkParams = "";
-      for (const [key, value] of params.entries()) {
+      for (const [key, value] of searchParams.entries()) {
         linkParams = linkParams + key + "=" + value + "&";
       }
       console.log("linkParams", linkParams);
-      const allChars = await getCharList(linkParams); //params.toString()
+      const allChars = await getCharList(linkParams); //searchParams.toString()
       setCharList(allChars);      
     } 
     get();
-  }, [location.search]);
+  }, [searchParams]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,40 +50,52 @@ function CharList() {
     //   ...data,
     //   page: 1      
     // }));
-    const newParams = new URLSearchParams({
-    //...Object.fromEntries(params.entries()),
-    ...data,
-    page: 1
-    });
+    // const newParams = new URLSearchParams({
+    // //...Object.fromEntries(searchParams.entries()),
+    // ...data,
+    // page: 1
+    // });
 
-    navigate(`?${newParams.toString()}`);
+    //navigate(`?${newParams.toString()}`);
+    setSearchParams({...data, page: 1});
   }
 
   const handleClickPrevButton = () => {
-    const prevPage = Number(params.get("page")) - 1;
-    params.set("page", prevPage)
+    const prevPage = Number(searchParams.get("page")) - 1;    
 
     // url.searchParams.set('page', prevPage);
     // window.history.pushState({}, '', url);
-    navigate(`?${params.toString()}`);
+    //navigate(`?${searchParams.toString()}`);
+    setSearchParams((searchParams) => {
+      searchParams.set("page", prevPage);
+      return searchParams;
+    });
   }
 
   const handleClickNextButton = () => {
-    const nextPage = Number(params.get("page")) + 1;
-    params.set("page", nextPage)
+    const nextPage = Number(searchParams.get("page")) + 1;
+    //searchParams.set("page", nextPage)
 
     // url.searchParams.set('page', nextPage);
     // window.history.pushState({}, '', url);
-    navigate(`?${params.toString()}`);
+    //navigate(`?${searchParams.toString()}`);
+    setSearchParams((searchParams) => {
+      searchParams.set("page", nextPage);
+      return searchParams;
+    });    
   }
 
   const handleChangePageInput = (event) => {
     const newPage = Number(event.target.value);
-    params.set("page", newPage)
+    //searchParams.set("page", newPage)
 
     // url.searchParams.set('page', newPage);
     // window.history.pushState({}, '', url);
-    navigate(`?${params.toString()}`); 
+    // navigate(`?${searchParams.toString()}`);
+    setSearchParams((searchParams) => {
+      searchParams.set("page", newPage);
+      return searchParams;
+    });   
   }
 
   return (
@@ -108,15 +122,9 @@ function CharList() {
       </div>
       <form>
         <input type='button' name='prevButton' onClick={handleClickPrevButton}></input>
-        <input name='page' placeholder='Page' onChange={handleChangePageInput} value={params.get("page")}></input>
+        <input name='page' placeholder='Page' onChange={handleChangePageInput} value={searchParams.get("page")}></input>
         <input type='button' name='nextButton' onClick={handleClickNextButton}></input>
       </form>
-      <Link to={"/cards?page=" + (4)}>
-        <input type='button' name='prevButton'></input>
-      </Link>
-      <Link to={"/cards?page=" + (4)}>
-        <input type='button' name='nextButton'></input>
-      </Link>   
     </div>
   );
 }
