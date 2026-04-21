@@ -3,29 +3,29 @@ import { getData, getCharacters, getChars, postData, deleteData } from '../funct
 import { Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart, clearCart } from '../features/counter/counterSlice'
-import { combineSlices } from '@reduxjs/toolkit'
+import { checkout } from '../features/counter/counterSlice'
 
 
-async function checkout(ids) {
-  try {
-    const requests = ids.map(id => 
-      postData(id, 'http://localhost:3000/my_cards')
-    )
-    await Promise.all(requests);
-    //ВОПРОС не работает
-    await deleteData("http://localhost:3000/cart?id:eq=3")
-  } catch (error) {
-    console.error("checkout", error);
-  }
-}
+
+// async function checkout(ids) {
+//   try {
+//     const requests = ids.map(id => 
+//       postData(id, 'http://localhost:3000/my_cards')
+//     )
+//     await Promise.all(requests);
+//     //ВОПРОС не работает
+//     await deleteData("http://localhost:3000/cart?id:eq=3")
+//   } catch (error) {
+//     console.error("checkout", error);
+//   }
+// }
 
 
 function Cart() {
   const [markedChars, setMarkedChars] = useState([]);
   const cartList = useSelector((state) => state.counter.cart);
-
-
+  const dispatch = useDispatch();
+  
   const handleChange = (event, id) => {
     if (event.target.checked) {
       const newMarkedChars = [...markedChars, id];
@@ -35,9 +35,15 @@ function Cart() {
     }
   };
 
-  const handlePayOnClick = async () => {
-    await checkout(markedChars);
-  }
+  // const handlePayOnClick = async () => {
+  //   await checkout(markedChars);    
+  // }
+  
+  const handlePayOnClick = () => {
+     dispatch(checkout(markedChars));   
+  }  
+
+  if (cartList.length === 0) return <div className='ldng_scrn'>Корзина пуста</div>;
 
   return (
     <div className='cart'>

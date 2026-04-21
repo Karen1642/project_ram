@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchCharsRequest } from '../features/counter/counterSlice'
 
 function CharList() {
-  //const [charList, setCharList] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
-
+  const [loading, setLoading] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams({page: 1});
   const dispatch = useDispatch();
-  const { chars } = useSelector(state => state.counter);
+  const chars = useSelector(state => state.counter.chars);
 
   // const [searchParams, setSearchParams] = useState({
   //                                           "page": 1, 
@@ -40,7 +39,8 @@ function CharList() {
       linkParams += key + "=" + value + "&"
     }
     console.log("linkParams", linkParams);
-    dispatch(fetchCharsRequest(linkParams))
+    dispatch(fetchCharsRequest(linkParams));
+    setLoading(false);
   }, [searchParams, dispatch]);
 
   const handleSubmit = (event) => {
@@ -67,7 +67,6 @@ function CharList() {
   const handleClickPrevButton = () => {
     const prevPage = Number(searchParams.get("page")) - 1;    
 
-    // url.searchParams.set('page', prevPage);
     setSearchParams((searchParams) => {
       searchParams.set("page", prevPage);
       return searchParams;
@@ -76,9 +75,7 @@ function CharList() {
 
   const handleClickNextButton = () => {
     const nextPage = Number(searchParams.get("page")) + 1;
-    //searchParams.set("page", nextPage)
 
-    // url.searchParams.set('page', nextPage);
     setSearchParams((searchParams) => {
       searchParams.set("page", nextPage);
       return searchParams;
@@ -87,14 +84,14 @@ function CharList() {
 
   const handleChangePageInput = (event) => {
     const newPage = Number(event.target.value);
-    //searchParams.set("page", newPage)
 
-    // url.searchParams.set('page', newPage);
     setSearchParams((searchParams) => {
       searchParams.set("page", newPage);
       return searchParams;
     });   
   }
+
+  if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
 
   return (
     <div className="charsWrapper">
@@ -107,8 +104,7 @@ function CharList() {
         <input type='submit' value="Submit"></input>
       </form>
       <div className="char_list">
-        {//charList.map( char => (
-        chars.map( char => (
+        {chars.map( char => (
           <Link to={"/cards/" + char.id}>
             <div className="char">
               <img src={char.image} alt=""></img>
@@ -121,7 +117,7 @@ function CharList() {
       </div>
       <form>
         <input type='button' name='prevButton' onClick={handleClickPrevButton}></input>
-        <input name='page' placeholder='Page' onChange={handleChangePageInput} value={searchParams.get("page")}></input>
+        <input name='page' placeholder='Page' onChange={handleChangePageInput} value={searchParams.get("page") || "1"}></input>
         <input type='button' name='nextButton' onClick={handleClickNextButton}></input>
       </form>
     </div>

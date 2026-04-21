@@ -1,7 +1,7 @@
 export const getCharList = async (params = '') => {
   const response = await fetch("https://rickandmortyapi.com/api/character/?" + params);
   console.log("response", response);
-  if (!response.ok) return "error";
+  if (!response.ok) throw response;
   
   const data = await response.json(); 
   return Object.hasOwn(data, "error") ? [data] : data.results;    
@@ -10,7 +10,7 @@ export const getCharList = async (params = '') => {
 export const getChar = async (cardId) => {
   const response = await fetch("https://rickandmortyapi.com/api/character/" + cardId)
   const data = await response.json();
-
+  console.log("data response", data);
   return data;  
 }
 
