@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
-import { getData, getChars } from '../functions.jsx'
 import { useSelector, useDispatch } from 'react-redux'
-import { getCharsRequest } from '../features/counter/counterSlice'
+import { getCharsRequest } from '../features/myCard/myCardSlice'
+import { myCardsSelector, myCardsIdsSelector } from '../features/myCard/myCardSelectors'
 
 function MyCards() {
   const [myCardsList, setMyCardsList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const {my_cards_ids, my_cards} = useSelector((state) => state.counter);
+  const myCards = useSelector(myCardsSelector);
+  const myCardsIds = useSelector(myCardsIdsSelector);
   const dispatch = useDispatch();
+
+  console.log("my_cards", myCards);
+  console.log("my_cards_ids", myCardsIds);
 
   useEffect(() => {
     // const get = async () => {
@@ -23,21 +26,20 @@ function MyCards() {
     // } 
     // get();
       let charIds = "";
-      my_cards_ids.map((res, idx) => (
+      myCardsIds.map((res, idx) => (
         charIds = charIds + (idx==0?'':',') + res.id.toString()         
       ));
       console.log("charIds", charIds);
       const contentList = dispatch(getCharsRequest(charIds));
       console.log("contentList", contentList);
       setMyCardsList(contentList);
-      setLoading(false);
   }, []);
 
   //if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
 
   return (
     <div className='my_cards'>
-      {my_cards.map(char => (
+      {myCards.map(char => (
         <div className='my_char_card'>
           <div className='my_char_avatar'><img src={char.image} alt=""></img></div>
           <div className='my_char_info'>

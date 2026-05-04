@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { getData, getCharacters, getChars, postData, deleteData } from '../functions.jsx'
 import { Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { checkout } from '../features/counter/counterSlice'
+import { addToMyCards } from '../features/myCard/myCardSlice'
+import { removeFromCart } from '../features/cart/cartSlice'
+import { cartIds } from '../features/cart/cartSelectors'
 
 
 
@@ -23,9 +24,11 @@ import { checkout } from '../features/counter/counterSlice'
 
 function Cart() {
   const [markedChars, setMarkedChars] = useState([]);
-  const cartList = useSelector((state) => state.counter.cart);
+  const cartList = useSelector(cartIds);
   const dispatch = useDispatch();
   
+  console.log("cartList", cartList)
+
   const handleChange = (event, id) => {
     if (event.target.checked) {
       const newMarkedChars = [...markedChars, id];
@@ -34,13 +37,10 @@ function Cart() {
       setMarkedChars(markedChars.filter(charId => charId !== id));
     }
   };
-
-  // const handlePayOnClick = async () => {
-  //   await checkout(markedChars);    
-  // }
-  
+ 
   const handlePayOnClick = () => {
-     dispatch(checkout(markedChars));   
+    dispatch(removeFromCart(markedChars));
+    dispatch(addToMyCards(markedChars));    
   }  
 
   if (cartList.length === 0) return <div className='ldng_scrn'>Корзина пуста</div>;

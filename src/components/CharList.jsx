@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation, useSearchParams } from 'react-router-dom'
-//import { getCharList } from '../functions.jsx'
+import {  useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchCharsRequest } from '../features/counter/counterSlice'
+import { fetchCharsRequest } from '../features/charList/charListSlice'
+import { charListSelector, charListLoadingSelector } from '../features/charList/charListSelectors'
 
 function CharList() {
-  const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams({page: 1});
   const dispatch = useDispatch();
-  const chars = useSelector(state => state.counter.chars);
+  const chars = useSelector(charListSelector);
+  const loading = useSelector(charListLoadingSelector);
 
   // const [searchParams, setSearchParams] = useState({
   //                                           "page": 1, 
@@ -40,7 +41,6 @@ function CharList() {
     }
     console.log("linkParams", linkParams);
     dispatch(fetchCharsRequest(linkParams));
-    setLoading(false);
   }, [searchParams, dispatch]);
 
   const handleSubmit = (event) => {
@@ -91,7 +91,7 @@ function CharList() {
     });   
   }
 
-  if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
+  //if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
 
   return (
     <div className="charsWrapper">

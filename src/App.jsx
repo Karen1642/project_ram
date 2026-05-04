@@ -6,7 +6,6 @@ import MyCards from './components/MyCards.jsx'
 import Cart from './components/Cart.jsx'
 import CharCard from './components/CharCard.jsx'
 import NotFound from './components/NotFound.jsx'
-import Counter from './features/counter/counterSlice'
 
 function App() {
   return (
@@ -20,7 +19,7 @@ function App() {
       </nav>
       {/* Определяем маршруты */}
       <Routes>
-        <Route path="/" element={<Counter />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/cards" element={<CharList />} />
         <Route path="/cards/:cardId" element={<CharCard />} />
         <Route path="/my-cards" element={<MyCards />} />

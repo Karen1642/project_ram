@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { postData, getChar } from '../functions.jsx'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart, fetchCharRequest } from '../features/counter/counterSlice'
+import { fetchCharRequest } from '../features/charCard/charCardSlice'
+import { charData, charLoading } from '../features/charCard/charCardSelectors'
+import { addToCart } from '../features/cart/cartSlice'
+
 
 function CharCard() {
   const {cardId} = useParams();
-  const [loading, setLoading] = useState(true);
-  const char = useSelector((state) => state.counter.char);
+  const char = useSelector(charData);
+  const loading = useSelector(charLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,11 +21,9 @@ function CharCard() {
     // }
     // get();
     dispatch(fetchCharRequest(cardId));
-    console.log("char", char);
-    setLoading(false);
   }, [dispatch]);
 
-  if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
+  //if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
 
   return (
     <div className='char_card'>

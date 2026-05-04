@@ -1,7 +1,7 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
-import { fetchCharsSuccess, fetchCharsError, fetchCharsRequest,
-         fetchCharRequest, fetchCharSuccess, fetchCharError, 
-         getCharsRequest, getCharsSuccess, getCharsError } from './features/counter/counterSlice'
+import { call, delay, put, takeLatest } from 'redux-saga/effects'
+import { getCharsRequest, getCharsSuccess } from './features/myCard/myCardSlice'
+import { fetchCharRequest, fetchCharSuccess } from './features/charCard/charCardSlice'
+import { fetchCharsSuccess, fetchCharsRequest } from './features/charList/charListSlice'
 import { getCharList, getChar, getChars } from './functions'
 
 
@@ -9,14 +9,15 @@ import { getCharList, getChar, getChars } from './functions'
 function* fetchCharsWorker(action) {
   try {
     console.log("saga action param:", action.payload);
-    const data = yield call(getCharList, action.payload)
-    yield put(fetchCharsSuccess(data))
+    const data = yield call(getCharList, action.payload);
+    console.log("data", data);
+    yield put(fetchCharsSuccess(data));
   } catch (e) {
     console.log("error code:", e);
     if (e instanceof Response) {
        if (e.status === 404) console.log("No data found");
     }
-    yield put(fetchCharsError())
+    yield put(logError());
   }
 }
 
@@ -25,13 +26,15 @@ function* fetchCharWorker(action) {
     console.log("saga action param:", action.payload);
     const data = yield call(getChar, action.payload);
     console.log("data", data);
+    //yield delay(500000);
     yield put(fetchCharSuccess(data));
+
   } catch (e) {
     console.log("error code:", e);
     if (e instanceof Response) {
        if (e.status === 404) console.log("No data found");
     }
-    yield put(fetchCharError())
+    yield put(logError());
   }
 }
 
@@ -46,7 +49,7 @@ function* getCharsWorker(action) {
     if (e instanceof Response) {
        if (e.status === 404) console.log("No data found");
     }
-    yield put(getCharsError())
+    yield put(logError());
   }
 }
 // watcher saga
