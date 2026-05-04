@@ -5,7 +5,7 @@ import charListReducer from './features/charList/charListSlice.js'
 import myCardReducer from './features/myCard/myCardSlice.js'
 
 import createSagaMiddleware from 'redux-saga'
-import watchFetchCharacters from './sagas'
+import rootSaga from './sagas'
 
 // const rootReducer = combineSlices({
     // cartSlice: cartReducer,
@@ -27,4 +27,4 @@ export const store = configureStore({
 })
 
 //Then run the saga
-sagaMiddleware.run(watchFetchCharacters)
+sagaMiddleware.run(rootSaga)
