@@ -6,6 +6,9 @@ const initialState = {
   loading: false
 }
 
+export const charData = (state) => state.charCardSlice.char;
+export const charLoading = (state) => state.charCardSlice.loading;
+
 export const charCardSlice = createSlice({
   name: 'charCardSlice',
   initialState,
@@ -14,8 +17,8 @@ export const charCardSlice = createSlice({
       state.error = true;
     },
 
-    fetchCharRequest: () => {
-      //state.loading = true;
+    fetchCharRequest: (state) => {
+      state.loading = true;
     },
     
     fetchCharSuccess: (state, action) => {

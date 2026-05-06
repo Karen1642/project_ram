@@ -5,6 +5,7 @@ import { watchFetchCharactersCharCard } from './features/charCard/charCardSaga';
 
 export default function* rootSaga() {
   yield all([
+    //вопрос про fork
     fork(watchFetchCharacters),
     fork(watchFetchCharactersMyCard),
     fork(watchFetchCharactersCharCard)

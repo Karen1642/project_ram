@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchCharRequest } from '../features/charCard/charCardSlice'
-import { charData, charLoading } from '../features/charCard/charCardSelectors'
+import { fetchCharRequest, charData, charLoading } from '../features/charCard/charCardSlice'
 import { addToCart } from '../features/cart/cartSlice'
 
 
@@ -23,7 +22,7 @@ function CharCard() {
     dispatch(fetchCharRequest(cardId));
   }, [dispatch]);
 
-  //if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
+  if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
 
   return (
     <div className='char_card'>
@@ -37,9 +36,11 @@ function CharCard() {
         {/* <p><span>Location</span><span>{char.location.name}</span></p>         */}
       </div>
       <div className='void'></div>
-      <div className='button'>
-        <button onClick={() => {dispatch(addToCart(char))}}>Buy</button>
-      </div>
+      <Link to="/cards">
+        <div className='button'>
+          <button onClick={() => {dispatch(addToCart(char))}}>Buy</button>
+        </div>
+      </Link>
     </div>    
   )
 }

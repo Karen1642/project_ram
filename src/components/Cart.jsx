@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { addToMyCards } from '../features/myCard/myCardSlice'
-import { removeFromCart } from '../features/cart/cartSlice'
-import { cartIds } from '../features/cart/cartSelectors'
-
-
+import { removeFromCart, cartIds } from '../features/cart/cartSlice'
 
 // async function checkout(ids) {
 //   try {
@@ -20,7 +17,6 @@ import { cartIds } from '../features/cart/cartSelectors'
 //     console.error("checkout", error);
 //   }
 // }
-
 
 function Cart() {
   const [markedChars, setMarkedChars] = useState([]);

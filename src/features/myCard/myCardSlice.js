@@ -11,6 +11,10 @@ const initialState = {
   loading: false
 }
 
+export const myCardsIdsSelector = (state) => state.myCardSlice.my_cards_ids;
+export const myCardsSelector = (state) => state.myCardSlice.my_cards;
+export const myCardsLoadingSelector = (state) => state.myCardSlice.loading;
+
 export const myCardSlice = createSlice({
   name: 'myCardSlice',
   initialState,
@@ -21,16 +25,18 @@ export const myCardSlice = createSlice({
         ));      
     },  
 
-    getCharsRequest: () => {
+    getCharsRequest: (state) => {
+      state.loading = true;
     },
 
     getCharsSuccess: (state, action) => {
       state.my_cards = action.payload;
+      state.loading = false;
     }
   },
 })
 
-// Action creators are generated for each case reducer function
+//Action creators are generated for each case reducer function
 export const {
   addToMyCards, 
   getCharsRequest, 

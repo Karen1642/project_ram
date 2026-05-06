@@ -10,7 +10,7 @@ function* fetchCharWorker(action) {
     console.log("saga action param:", action.payload);
     const data = yield call(getChar, action.payload);
     console.log("data", data);
-    //yield delay(500000);
+    yield delay(1000);
     yield put(fetchCharSuccess(data));
 
   } catch (e) {

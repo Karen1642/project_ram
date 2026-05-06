@@ -1,9 +1,8 @@
-import {  useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchCharsRequest } from '../features/charList/charListSlice'
-import { charListSelector, charListLoadingSelector } from '../features/charList/charListSelectors'
+import { fetchCharsRequest, charListSelector, charListLoadingSelector } from '../features/charList/charListSlice'
 
 function CharList() {
   const [searchParams, setSearchParams] = useSearchParams({page: 1});
@@ -91,7 +90,7 @@ function CharList() {
     });   
   }
 
-  //if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
+  if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
 
   return (
     <div className="charsWrapper">

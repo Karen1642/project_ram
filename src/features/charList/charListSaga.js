@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest, delay } from 'redux-saga/effects'
 import { fetchCharsSuccess, fetchCharsRequest } from './charListSlice'
 import { getCharList } from './charListApi'
 
@@ -9,6 +9,7 @@ function* fetchCharsWorker(action) {
     console.log("saga action param:", action.payload);
     const data = yield call(getCharList, action.payload);
     console.log("data", data);
+    yield delay(1000);
     yield put(fetchCharsSuccess(data));
   } catch (e) {
     console.log("error code:", e);

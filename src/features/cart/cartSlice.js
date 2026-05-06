@@ -6,6 +6,9 @@ const initialState = {
   loading: false
 }
 
+export const cartIds = (state) => state.cartSlice.cart;
+export const cartLoading = (state) => state.cartSlice.loading;
+
 export const cartSlice = createSlice({
   name: 'cartSlice',
   initialState,

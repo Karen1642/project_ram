@@ -1,41 +1,25 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getCharsRequest } from '../features/myCard/myCardSlice'
-import { myCardsSelector, myCardsIdsSelector } from '../features/myCard/myCardSelectors'
+import { getCharsRequest, myCardsSelector, myCardsIdsSelector, myCardsLoadingSelector } from '../features/myCard/myCardSlice'
 
 function MyCards() {
-  const [myCardsList, setMyCardsList] = useState([]);
   const myCards = useSelector(myCardsSelector);
   const myCardsIds = useSelector(myCardsIdsSelector);
+  const loading = useSelector(myCardsLoadingSelector);
   const dispatch = useDispatch();
 
   console.log("my_cards", myCards);
   console.log("my_cards_ids", myCardsIds);
 
   useEffect(() => {
-    // const get = async () => {
-    //   const myCharsData = await getData("http://localhost:3000/my_cards");
-
-    //   let charIds = "";
-    //   myCharsData.map((res, idx) => (
-    //         charIds = charIds + (idx==0?'':',') + res.id.toString()         
-    //       ));
-
-    //   const contentList = await getChars(charIds);
-    //   setMyCardsList(contentList);
-    // } 
-    // get();
       let charIds = "";
       myCardsIds.map((res, idx) => (
         charIds = charIds + (idx==0?'':',') + res.id.toString()         
       ));
-      console.log("charIds", charIds);
-      const contentList = dispatch(getCharsRequest(charIds));
-      console.log("contentList", contentList);
-      setMyCardsList(contentList);
+      dispatch(getCharsRequest(charIds));
   }, []);
 
-  //if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
+  if (loading) return <div className='ldng_scrn'>Загрузка...</div>;
 
   return (
     <div className='my_cards'>
