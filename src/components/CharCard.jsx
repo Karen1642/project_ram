@@ -13,12 +13,6 @@ function CharCard() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // const get = async () => {
-    //   const cardData = await getChar(cardId);
-    //   setChar(cardData);
-    //   setLoading(false);
-    // }
-    // get();
     dispatch(fetchCharRequest(cardId));
   }, [dispatch]);
 

@@ -37,6 +37,7 @@
 }
 
 .char_list {
+  min-height: 586px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -49,9 +50,9 @@ input {
 }
 
 .char {
-  height: 255px;
+  height: 240px;
   max-width: 125px;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
   background-color: #f3eded;
   border-radius: 6%;
   border: 2px solid rgb(255, 255, 255);
@@ -174,7 +175,7 @@ input {
   justify-content: flex-end;
 }
 .cart_list {
-  min-height: 100px;
+  min-height: 300px;
   width:100%;
   background-color: white;
   border-radius: 10px;
@@ -210,5 +211,31 @@ input {
 
 .ldng_scrn {
   color: white;
-  font: 520 36px/1.5 "Arial", sans-serif;
+  font-weight: bold;
+  display:inline-block;
+  font-family: monospace;
+  font-size: 44px;
+  clip-path: inset(0 3ch 0 0);
+  animation: l 1s steps(4) infinite;
+}
+@keyframes l {
+  to {
+    clip-path: inset(0 -1ch 0 0)
+  }
+}
+
+.empty_cart {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-top: 110px;
+  color: rgb(7, 200, 23);
+  font-weight: bold;
+  display:inline-block;
+  font-family: monospace;
+  font-size: 44px;
+}
+
+.hidden_btn {
+  height: 52.4px;
 }

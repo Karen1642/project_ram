@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   char: {},
-  error: null,
   loading: false
 }
 
@@ -13,16 +12,14 @@ export const charCardSlice = createSlice({
   name: 'charCardSlice',
   initialState,
   reducers: {    
-    logError: (state) => {
-      state.error = true;
-    },
-
     fetchCharRequest: (state) => {
       state.loading = true;
-    },
-    
+    },    
     fetchCharSuccess: (state, action) => {
       state.char = action.payload;
+      state.loading = false;
+    },
+    fetchCharError: (state) => {
       state.loading = false;
     }
   },
@@ -30,9 +27,9 @@ export const charCardSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { 
-  logError,
   fetchCharRequest, 
   fetchCharSuccess, 
+  fetchCharError
 } = charCardSlice.actions
 
 export default charCardSlice.reducer

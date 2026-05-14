@@ -7,7 +7,6 @@ const initialState = {
     }
   ],
   my_cards: [],
-  error: null,
   loading: false
 }
 
@@ -23,12 +22,10 @@ export const myCardSlice = createSlice({
       action.payload.map((idx) => (
           state.my_cards_ids.push({"id": idx})       
         ));      
-    },  
-
+    },
     getCharsRequest: (state) => {
       state.loading = true;
     },
-
     getCharsSuccess: (state, action) => {
       state.my_cards = action.payload;
       state.loading = false;
@@ -39,9 +36,8 @@ export const myCardSlice = createSlice({
 //Action creators are generated for each case reducer function
 export const {
   addToMyCards, 
-  getCharsRequest, 
-  getCharsSuccess, 
-  getCharsError
+  getCharsRequest,
+  getCharsSuccess
 } = myCardSlice.actions
 
 export default myCardSlice.reducer

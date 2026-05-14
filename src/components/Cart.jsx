@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -39,7 +39,18 @@ function Cart() {
     dispatch(addToMyCards(markedChars));    
   }  
 
-  if (cartList.length === 0) return <div className='ldng_scrn'>Корзина пуста</div>;
+  if (cartList.length === 0) {
+    return (
+      <div className='cart'>
+        <div className='cart_list'>
+          <div className='empty_cart'>
+            <span>Корзина пуста</span>            
+          </div>
+        </div>
+        <div className='hidden_btn'></div>
+      </div>
+    )
+  }
 
   return (
     <div className='cart'>

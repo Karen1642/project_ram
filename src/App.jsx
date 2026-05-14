@@ -6,6 +6,7 @@ import MyCards from './components/MyCards.jsx'
 import Cart from './components/Cart.jsx'
 import CharCard from './components/CharCard.jsx'
 import NotFound from './components/NotFound.jsx'
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Link to="/my-cards">Мои карточки</Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
         <Link to="/cart">Корзина</Link>
       </nav>
+      <ToastContainer />
       {/* Определяем маршруты */}
       <Routes>
         <Route path="/" element={<MainPage />} />

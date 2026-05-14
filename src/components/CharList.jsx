@@ -10,35 +10,11 @@ function CharList() {
   const chars = useSelector(charListSelector);
   const loading = useSelector(charListLoadingSelector);
 
-  // const [searchParams, setSearchParams] = useState({
-  //                                           "page": 1, 
-  //                                           "name": "", 
-  //                                           "status": "",
-  //                                           "species": "",
-  //                                           "type": "",
-  //                                           "gender": ""
-  //                                         });
-  //let location = useLocation();
-  //let searchParams = new URLSearchParams(location.search);
-  
-  //const url = new URL(window.location.href);
-
   useEffect(() => {
-    // const get = async () => {  
-    //   let linkParams = "";
-    //   for (const [key, value] of searchParams.entries()) {
-    //     linkParams = linkParams + key + "=" + value + "&";
-    //   }
-    //   console.log("linkParams", linkParams);
-    //   const allChars = await getCharList(linkParams); //searchParams.toString()
-    //   setCharList(allChars);      
-    // } 
-    // get();
     let linkParams = "";
     for (const [key, value] of searchParams.entries()) {
       linkParams += key + "=" + value + "&"
     }
-    console.log("linkParams", linkParams);
     dispatch(fetchCharsRequest(linkParams));
   }, [searchParams, dispatch]);
 
@@ -47,18 +23,6 @@ function CharList() {
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    console.log("data", data);
-
-    // setSearchParams(prev => ({
-    //   ...prev,
-    //   ...data,
-    //   page: 1      
-    // }));
-    // const newParams = new URLSearchParams({
-    // //...Object.fromEntries(searchParams.entries()),
-    // ...data,
-    // page: 1
-    // });
 
     setSearchParams({...data, page: 1});
   }
@@ -95,11 +59,11 @@ function CharList() {
   return (
     <div className="charsWrapper">
       <form  onSubmit={handleSubmit}>
-        <input name='name' placeholder='name'></input>
-        <input name='status' placeholder='status'></input>
-        <input name='species' placeholder='species'></input>
-        <input name='type'placeholder='type'></input>
-        <input name='gender'placeholder='gender'></input>
+        <input name='name' placeholder='name' defaultValue={searchParams.get("name") || ""}></input>
+        <input name='status' placeholder='status' defaultValue={searchParams.get("status") || ""}></input>
+        <input name='species' placeholder='species' defaultValue={searchParams.get("species") || ""}></input>
+        <input name='type' placeholder='type' defaultValue={searchParams.get("type") || ""}></input>
+        <input name='gender' placeholder='gender' defaultValue={searchParams.get("gender") || ""}></input>
         <input type='submit' value="Submit"></input>
       </form>
       <div className="char_list">
