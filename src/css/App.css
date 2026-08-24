@@ -23,6 +23,10 @@
   color: white;
 }
 
+.separator {
+  margin: 0 20px 0 20px;  
+}
+
 .charsWrapper {
   width: 90%;
   margin-top: 80px;
@@ -43,6 +47,10 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 40px;
+}
+
+.char_list a {
+  width: 9.5%;
 }
 
 input {
@@ -190,12 +198,8 @@ input {
   align-items: center;
 }
 
-.cart_list a span {
-  margin-left: 10px;
-}
-
 .cart_list a img {
-  margin-left: 10px;
+  margin: 0 12px 0 12px;
   width:30px;
 }
 
@@ -238,4 +242,12 @@ input {
 
 .hidden_btn {
   height: 52.4px;
+}
+
+.void_scrn {
+  color: white;
+  font-weight: bold;
+  display:inline-block;
+  font-family: monospace;
+  font-size: 44px;
 }

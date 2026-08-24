@@ -14,7 +14,7 @@ function* fetchCharWorker(action) {
   } catch (e) {
     console.log("error code:", e);
     if (e instanceof Response) {
-        yield toast.error("Ошибка! " + e.status); 
+        yield toast.error("Ошибка! " + e.status, { autoClose: false }); 
     }
     yield put(fetchCharError());
   }

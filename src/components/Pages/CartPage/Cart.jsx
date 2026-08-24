@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addToMyCards } from '../features/myCard/myCardSlice'
-import { removeFromCart, cartIds } from '../features/cart/cartSlice'
+import { addToMyCards } from '../../../features/myCard/myCardSlice'
+import { removeFromCart, cartIds } from '../../../features/cart/cartSlice'
 
 // async function checkout(ids) {
 //   try {
@@ -23,7 +23,7 @@ function Cart() {
   const cartList = useSelector(cartIds);
   const dispatch = useDispatch();
   
-  console.log("cartList", cartList)
+  console.log("cartList", cartList);
 
   const handleChange = (event, id) => {
     if (event.target.checked) {
@@ -38,7 +38,7 @@ function Cart() {
     dispatch(removeFromCart(markedChars));
     dispatch(addToMyCards(markedChars));    
   }  
-
+  /*
   if (cartList.length === 0) {
     return (
       <div className='cart'>
@@ -50,19 +50,26 @@ function Cart() {
         <div className='hidden_btn'></div>
       </div>
     )
-  }
+  }*/
 
   return (
     <div className='cart'>
       <div className='cart_list'>
-        {cartList.map((char, idx) => (       
+        {
+        cartList.length === 0 ?           
+          <div className='empty_cart'>
+            <span>Корзина пуста</span>            
+          </div> :
+        cartList.map((char, idx) => (       
             <div className='cart_char' id={char.id}>
               <input id={char.id} type="checkbox" onChange={e => handleChange(e, char.id)} checked={markedChars.includes(char.id)}/>
               <Link to={"/cards/" + char.id}>              
                 <span>{idx}. </span>
                 <img src={char.image} alt=""></img>
-                <span>{char.name}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
-                <span>{char.species}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <span>{char.name}</span>
+                <span className='separator'>|</span>
+                <span>{char.species}</span>
+                <span className='separator'>|</span>
                 <span>{char.status}</span>
               </Link>  
             </div>          

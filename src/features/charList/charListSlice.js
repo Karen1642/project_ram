@@ -20,10 +20,12 @@ export const charListSlice = createSlice({
       state.loading = false;
     },
     fetchCharsError: (state) => {
+      state.charList = [];
       state.loading = false;
     }
   },
 })
+
 
 // Action creators are generated for each case reducer function
 export const { 

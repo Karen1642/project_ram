@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getCharsRequest, myCardsSelector, myCardsIdsSelector, myCardsLoadingSelector } from '../features/myCard/myCardSlice'
+import { getCharsRequest, myCardsSelector, myCardsIdsSelector, myCardsLoadingSelector } from '../../../features/myCard/myCardSlice'
 
 function MyCards() {
   const myCards = useSelector(myCardsSelector);
@@ -13,7 +13,8 @@ function MyCards() {
 
   useEffect(() => {
       let charIds = "";
-      myCardsIds.map((res, idx) => (
+
+      const res = myCardsIds.forEach((res, idx) => (
         charIds = charIds + (idx==0?'':',') + res.id.toString()         
       ));
       dispatch(getCharsRequest(charIds));
@@ -23,7 +24,9 @@ function MyCards() {
 
   return (
     <div className='my_cards'>
-      {myCards.map(char => (
+      {
+      loading ? <div className='ldng_scrn'>Загрузка...</div>: 
+        char.name.length > 0 ? myCards.map(char => (
         <div className='my_char_card'>
           <div className='my_char_avatar'><img src={char.image} alt=""></img></div>
           <div className='my_char_info'>
@@ -35,7 +38,8 @@ function MyCards() {
             <p><span>Location</span><span>{char.location.name}</span></p>        
           </div>
         </div> 
-      ))}
+      )): <div className='void_scrn'>Нет данных</div>
+      }
     </div>    
   )
 }
