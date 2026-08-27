@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addToMyCards } from '../../../features/myCard/myCardSlice'
 import { removeFromCart, cartIds } from '../../../features/cart/cartSlice'
 import CartCharRow from './CartCharRow'
+import CartPayButton from './CartPayButton'
 
 function Cart() {
   const [markedChars, setMarkedChars] = useState([]);
@@ -45,11 +46,9 @@ function Cart() {
           />
         ))}
       </div>
-      <div>
-        <button onClick={handlePayOnClick}>
-          Pay
-        </button>
-      </div>
+      <CartPayButton 
+        handlePayOnClick = {handlePayOnClick}
+      />
     </div>
   )
 }
