@@ -16,20 +16,26 @@ function CharCard() {
   useEffect(() => {
     dispatch(fetchCharRequest(cardId));
   }, [dispatch]);
-
   return (
     <div className='char_card'>
       {
-      loading ? <div className='ldng_scrn'>Загрузка...</div>: 
-        char === null ? 
-        <CharCardItem />
-        : <div className='void_scrn'>Нет данных</div>
+        loading ? <div className='ldng_scrn'>Загрузка...</div>: 
+          char ? 
+          <CharCardItem 
+            charName = {char.name}
+            charStatus = {char.status}
+            charSpecies = {char.species}
+            charType = {char.type}
+            charGender = {char.gender}
+            charImage = {char.image}   
+          />
+          : <div className='void_scrn'>Нет данных</div>
       }
-          <Link to="/cards">
-            <div className='button'>
-              <button onClick={() => {dispatch(addToCart(char))}}>Buy</button>
-            </div>
-          </Link>
+        <Link to="/cards">
+          <div className='button'>
+            <button onClick={() => {dispatch(addToCart(char))}}>Buy</button>
+          </div>
+        </Link>
     </div>    
   )
 }
