@@ -5,6 +5,7 @@ import { addToMyCards } from '../../../features/myCard/myCardSlice'
 import { removeFromCart, cartIds } from '../../../features/cart/cartSlice'
 import CartCharRow from './CartCharRow'
 import CartPayButton from './CartPayButton'
+import EmpryCart from './EmpryCart'
 
 function Cart() {
   const [markedChars, setMarkedChars] = useState([]);
@@ -30,20 +31,18 @@ function Cart() {
       <div className='cart_list'>
         {
         cartList.length === 0 ?           
-          <div className='empty_cart'>
-            <span>Корзина пуста</span>            
-          </div> :
-        cartList.map((char, idx) => (       
-          <CartCharRow
-            rowId = {idx}
-            markedChars = {markedChars}
-            handleChange = {handleChange} 
-            charId = {char.id}
-            charImage = {char.image}
-            charName = {char.name}
-            charSpecies = {char.species}
-            charStatus = {char.status}
-          />
+          <EmpryCart />:
+          cartList.map((char, idx) => (       
+            <CartCharRow
+              rowId = {idx}
+              markedChars = {markedChars}
+              handleChange = {handleChange} 
+              charId = {char.id}
+              charImage = {char.image}
+              charName = {char.name}
+              charSpecies = {char.species}
+              charStatus = {char.status}
+            />
         ))}
       </div>
       <CartPayButton 
