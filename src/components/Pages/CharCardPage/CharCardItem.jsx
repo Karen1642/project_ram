@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 function CharCardItem(props) {
       const {
         charName,
@@ -5,11 +7,12 @@ function CharCardItem(props) {
         charSpecies,
         charType,
         charImage,
-        charStatus
+        charStatus,
+        handleBuyOnClick
     } = props;
 
     return (
-        <div>
+        <div className='char_card'> 
           <div className='char_avatar'><img src={charImage} alt=""></img></div>
           <div className='char_info'>
             <p><span>Name</span><span>{charName}</span></p>
@@ -19,6 +22,11 @@ function CharCardItem(props) {
             <p><span>Status</span><span>{charStatus}</span></p>
           </div>
           <div className='void'></div>
+          <Link to="/cards">
+            <div className='button'>
+              <button onClick={handleBuyOnClick}>Buy</button>
+            </div>
+          </Link>
         </div>
     )
 }

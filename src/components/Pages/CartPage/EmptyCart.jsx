@@ -1,7 +1,6 @@
 function EmpryCart() {
-
     return (
-<       <div className='empty_cart'>
+        <div className='empty_cart'>
             <span>Корзина пуста</span>            
         </div> 
     )

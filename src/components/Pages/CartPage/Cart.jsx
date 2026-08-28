@@ -5,7 +5,7 @@ import { addToMyCards } from '../../../features/myCard/myCardSlice'
 import { removeFromCart, cartIds } from '../../../features/cart/cartSlice'
 import CartCharRow from './CartCharRow'
 import CartPayButton from './CartPayButton'
-import EmpryCart from './EmpryCart'
+import EmptyCart from './EmptyCart'
 
 function Cart() {
   const [markedChars, setMarkedChars] = useState([]);
@@ -31,7 +31,7 @@ function Cart() {
       <div className='cart_list'>
         {
         cartList.length === 0 ?           
-          <EmpryCart />:
+          <EmptyCart />:
           cartList.map((char, idx) => (       
             <CartCharRow
               rowId = {idx}

@@ -6,7 +6,7 @@ const initialState = {
       id: 2,
     }
   ],
-  my_cards: [],
+  my_cards: null,
   loading: false
 }
 
