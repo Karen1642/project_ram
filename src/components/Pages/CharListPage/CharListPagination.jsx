@@ -5,7 +5,7 @@ function CharListPagination(props) {
 
         <form>
             <input type='button' name='prevButton' onClick={handleCPB}></input>
-            <input name='page' placeholder='Page' onChange={handleCPI} defaultValue={pageInput || "1"}></input>
+            <input name='page' placeholder='Page' onChange={handleCPI} value={pageInput || "1"}></input>
             <input type='button' name='nextButton' onClick={handleCNB}></input>
         </form>
     )

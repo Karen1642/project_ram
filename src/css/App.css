@@ -54,8 +54,18 @@
 }
 
 input {
-  margin: 0 10px 0 10px;
+  margin: 0 5px 0 5px;
 }
+
+input[name="page"] {
+  width: 20px;
+  text-align: center;
+}
+
+input[name="nextButton"], input[name="prevButton"] {
+  width: 20px;
+}
+
 
 .char {
   height: 240px;
