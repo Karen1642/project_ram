@@ -1,6 +1,6 @@
 function CharListPagination(props) {
     const {handleCPB, handleCNB, handleCPI, pageInput } = props;
-    console.log("pageInput",pageInput)
+
     return (
 
         <form>

@@ -1,11 +1,12 @@
 function CartPayButton(props) {
     const {
         handlePayOnClick,
+        disabled
     } = props;
 
     return (
       <div>
-        <button onClick={handlePayOnClick}>
+        <button disabled={disabled} onClick={handlePayOnClick}>
           Pay
         </button>
       </div>

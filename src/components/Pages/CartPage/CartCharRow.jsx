@@ -8,10 +8,7 @@ function CartCharRow(props) {
         charId,
         charImage,
         charName,
-        charGender,
         charSpecies,
-        charType,
-
         charStatus
     } = props;
 

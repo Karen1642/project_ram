@@ -19,11 +19,9 @@ export const cartSlice = createSlice({
       action.payload.map((idx) => (
          state.cart = state.cart.filter(item => item.id !== idx)
         ));      
-      console.log("cart state", state.cart);
     },
     clearCart: (state) => {
         state.cart = [];
-        console.log("cart state", state.cart);
     }
   },
 })

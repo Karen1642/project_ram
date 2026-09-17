@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCharsRequest, charListLoadingSelector } from '../../../features/charList/charListSlice'
+import CharListRoster from './CharListRoster'
 import CharListSearchPanel from './CharListSearchPanel'
 import CharListPagination from './CharListPagination'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchCharsRequest, charListSelector, charListLoadingSelector } from '../../../features/charList/charListSlice'
-import CharListCard from './CharListCard'
+import CharListLoading from './CharListLoading'
 
 function CharList() {
   const dispatch = useDispatch();
-  const chars = useSelector(charListSelector);
+  //const chars = useSelector(charListSelector);
   const loading = useSelector(charListLoadingSelector);
   const [searchParams, setSearchParams] = useSearchParams({page: 1});
 
@@ -32,7 +33,6 @@ function CharList() {
 
   const handleClickPrevButton = () => {
     const prevPage = Number(searchParams.get("page")) - 1;
-    console.log("prevPage", prevPage);    
 
     setSearchParams((searchParams) => {
       searchParams.set("page", prevPage);
@@ -69,16 +69,7 @@ function CharList() {
       />  
       <div className="char_list">
         {
-          loading ? <div className='ldng_scrn'>Загрузка...</div>: 
-          chars.length > 0 ? chars.map(char => (
-            <CharListCard 
-              charId = {char.id}
-              charImage = {char.image}
-              charName = {char.name}
-              charSpecies = {char.species}
-              charStatus = {char.status}
-            />
-          )): <div className='void_scrn'>Нет данных</div>
+          loading ? <CharListLoading /> : <CharListRoster />   //разобраться с вложенным тернарником
         }
       </div>
       <CharListPagination 

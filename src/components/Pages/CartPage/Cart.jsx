@@ -35,7 +35,7 @@ function Cart() {
           cartList.map((char, idx) => (       
             <CartCharRow
               rowId = {idx}
-              markedChars = {markedChars}
+              markedChars = {markedChars} //надо передавать не массив, а текущее значение- помеченный или нет
               handleChange = {handleChange} 
               charId = {char.id}
               charImage = {char.image}
@@ -47,6 +47,7 @@ function Cart() {
       </div>
       <CartPayButton 
         handlePayOnClick = {handlePayOnClick}
+        disabled = {cartList.length === 0}
       />
     </div>
   )

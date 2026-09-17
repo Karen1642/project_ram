@@ -6,14 +6,11 @@ import { getCharList } from './charListApi'
 // worker saga
 function* fetchCharsWorker(action) {
   try {
-    console.log("saga action param:", action.payload);
     const data = yield call(getCharList, action.payload);
-    console.log("data", data);
 
     yield delay(500);
     yield put(fetchCharsSuccess(data));
   } catch (e) {
-    console.log("error code:", e);
     if (e instanceof Response) {
        yield toast.error("Ошибка загрузки " + e.status, { autoClose: 8000 }); 
     }

@@ -8,6 +8,7 @@ function CharListCard(props) {
         charSpecies,
         charStatus
     } = props;
+
     return (
         <Link to={"/cards/" + charId}>
         <div className="char">
