@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 function CartCharRow(props) {
       const {
-        markedChars,
+        isMarked,
         handleChange,
         rowId,
         charId,
@@ -14,7 +14,7 @@ function CartCharRow(props) {
 
     return (
         <div className='cart_char' id={charId}>
-            <input id={charId} type="checkbox" onChange={e => handleChange(e, charId)} checked={markedChars.includes(charId)}/>
+            <input id={charId} type="checkbox" onChange={e => handleChange(e, charId)} checked={isMarked}/>
             <Link to={"/cards/" + charId}>              
             <span>{rowId}. </span>
             <img src={charImage} alt=""></img>

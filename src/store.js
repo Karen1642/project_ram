@@ -20,5 +20,4 @@ export const store = configureStore({
     getDefaultMiddleware().concat(sagaMiddleware),
 })
 
-//Then run the saga
 sagaMiddleware.run(rootSaga)

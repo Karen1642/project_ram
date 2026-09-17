@@ -9,7 +9,6 @@ import CharListLoading from './CharListLoading'
 
 function CharList() {
   const dispatch = useDispatch();
-  //const chars = useSelector(charListSelector);
   const loading = useSelector(charListLoadingSelector);
   const [searchParams, setSearchParams] = useSearchParams({page: 1});
 

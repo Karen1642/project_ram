@@ -35,7 +35,7 @@ function Cart() {
           cartList.map((char, idx) => (       
             <CartCharRow
               rowId = {idx}
-              markedChars = {markedChars} //надо передавать не массив, а текущее значение- помеченный или нет
+              isMarked = {markedChars.includes(char.id)} //надо передавать не массив, а текущее значение- помеченный или нет
               handleChange = {handleChange} 
               charId = {char.id}
               charImage = {char.image}
